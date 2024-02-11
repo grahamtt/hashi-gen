@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "hashi-gen"
+version = "0.1.0"
+description = ""
+authors = ["Graham Tibbitts <graham.tibbitts@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+autohooks = "<24"
+autohooks-plugin-black = "^23.10.0"
+autohooks-plugin-isort = "^23.10.0"
+autohooks-plugin-pytest = "^23.10.0"
+autohooks-plugin-ruff = "^23.10.0"
+autoimport = "^1.4.0"
+mdformat = "^0.7.17"
+pydoclint = "^0.4.0"
+pydocstyle = "^6.3.0"
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+pytest-sugar = "^1.0.0"
+toml-sort = "^0.23.1"
+
+[tool.autohooks]
+mode = "poetry"
+pre-commit = [
+    "autohooks.clean",
+    "autohooks.update_dependencies",
+    "autohooks.autoimport",
+    "autohooks.plugins.black",
+    "autohooks.plugins.ruff",
+    "autohooks.plugins.isort",
+    "autohooks.pydocstyle",
+    "autohooks.pydoclint",
+    "autohooks.tomlsort",
+    "autohooks.mdformat",
+    "autohooks.plugins.pytest",
+    "autohooks.build",
+    "autohooks.assert_files",
+]
+
+[tool.autohooks.plugins.pydoclint]
+include = 'hashi_gen/*.py'
+
+[tool.autohooks.plugins.pydocstyle]
+include = 'hashi_gen/*.py'
+
+[tool.autohooks.plugins.ruff]
+arguments = '--fix'
+
+[tool.autohooks.plugins.update_dependencies.install]
+arguments = ['--all-extras']
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = "--cov=hashi_gen --cov-report=term-missing --cov-report=lcov:dist/coverage.info --cov-report=html:dist/coveragereport --cov-fail-under=100"
+testpaths = "tests"
+python_functions = ["*_test", "test_*"]
+
+[tool.mutmut]
+disable-mutation-types = "string,fstring,expr_stmt,annassign,number"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
