@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.9,<4.0"
 
 [tool.poetry.group.dev.dependencies]
-autohooks = "<24"
+autohooks = "^24.0.0"
 autohooks-plugin-black = "^23.10.0"
 autohooks-plugin-isort = "^23.10.0"
 autohooks-plugin-pytest = "^23.10.0"
@@ -26,19 +26,19 @@ toml-sort = "^0.23.1"
 [tool.autohooks]
 mode = "poetry"
 pre-commit = [
-    "autohooks.clean",
-    "autohooks.update_dependencies",
-    "autohooks.autoimport",
+    "hooks.clean",
+    "hooks.update_dependencies",
+    "hooks.autoimport",
     "autohooks.plugins.black",
     "autohooks.plugins.ruff",
     "autohooks.plugins.isort",
-    "autohooks.pydocstyle",
-    "autohooks.pydoclint",
-    "autohooks.tomlsort",
-    "autohooks.mdformat",
+    "hooks.pydocstyle",
+    "hooks.pydoclint",
+    "hooks.tomlsort",
+    "hooks.mdformat",
     "autohooks.plugins.pytest",
-    "autohooks.build",
-    "autohooks.assert_files",
+    "hooks.build",
+    "hooks.assert_files",
 ]
 
 [tool.autohooks.plugins.pydoclint]
@@ -55,6 +55,15 @@ arguments = ['--all-extras']
 
 [tool.isort]
 profile = "black"
+
+[tool.pydoclint]
+style = "google"
+allow-init-docstring = true
+
+[tool.pydocstyle]
+inherit = false
+convention = "google"
+add_ignore = ['D100', 'D104', 'D107']
 
 [tool.pytest.ini_options]
 addopts = "--cov=hashi_gen --cov-report=term-missing --cov-report=lcov:dist/coverage.info --cov-report=html:dist/coveragereport --cov-fail-under=100"
